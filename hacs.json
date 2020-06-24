@@ -1,0 +1,7 @@
+{
+    "name": "Musiccast Yamaha",
+    "domains": [
+        "media_player"
+    ],
+    "render_readme": true
+}
