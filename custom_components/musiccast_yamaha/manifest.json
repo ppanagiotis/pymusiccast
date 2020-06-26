@@ -3,7 +3,7 @@
   "name": "MusicCast Yamaha",
   "documentation": "https://github.com/ppanagiotis/pymusiccast",
   "issue_tracker": "https://github.com/ppanagiotis/pymusiccast/issues",
-  "manifest": "https://raw.githubusercontent.com/ppanagiotis/pymusiccast/master/custom_components/pymusiccast/manifest.json",
+  "manifest": "https://raw.githubusercontent.com/ppanagiotis/pymusiccast/master/custom_components/musiccast_yamaha/manifest.json",
   "requirements": ["pymusiccast==0.1.6"],
   "codeowners": ["@ppanagiotis"]
 }

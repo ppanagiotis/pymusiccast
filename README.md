@@ -13,7 +13,7 @@ After waiting a year for [pymusiccast](https://github.com/jalmeroth/pymusiccast/
 TODO
 
 ### Manual install
-- Copy entire `pymusiccast/custom_components/pymusiccast` folder under `$HOMEASSISTANT_CONFIG/custom_components/`.
+- Copy entire `pymusiccast/custom_components/musiccast_yamaha` folder under `$HOMEASSISTANT_CONFIG/custom_components/`.
 
 
 ## Setup

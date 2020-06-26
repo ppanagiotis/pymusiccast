@@ -2,7 +2,7 @@
 import logging
 import socket
 
-import custom_components.pymusiccast.pymusiccast as pymusiccast
+import custom_components.musiccast_yamaha.pymusiccast as pymusiccast
 import voluptuous as vol
 
 from homeassistant.components.media_player import (
