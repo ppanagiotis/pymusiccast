@@ -1,9 +1,10 @@
+[![](https://img.shields.io/github/v/release/ppanagiotis/pymusiccast.svg?style=flat-square?style=flat-square)](https://github.com/ppanagiotis/pymusiccast/releases/latest)
 
 
 Group Yamaha MusicCast Speakers with [Home Assistant](https://github.com/home-assistant/home-assistant)
 
 
-![Preview Image](group_speakers.gif)
+![Preview Image](https://github.com/ppanagiotis/pymusiccast/raw/master/group_speakers.gif?raw=true)
 
 ## Features
 

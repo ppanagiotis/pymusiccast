@@ -1,10 +1,11 @@
 # Group MusicCast Speakers with [Home Assistant](https://github.com/home-assistant/home-assistant)
 
+[![](https://img.shields.io/github/v/release/ppanagiotis/pymusiccast.svg?style=flat-square?style=flat-square)](https://github.com/ppanagiotis/pymusiccast/releases/latest)
 
 After waiting a year for [pymusiccast](https://github.com/jalmeroth/pymusiccast/) to support speakers group I decide to create a custom module, overwriting existing pymusiccast module, using code from this [PR](https://github.com/jalmeroth/pymusiccast/pull/13)
 (credits [@hcoohb](https://github.com/hcoohb)).
 
-![musiccast group management example](group_speakers.gif?raw=true "musiccast group management example")
+![musiccast group management example](https://github.com/ppanagiotis/pymusiccast/raw/master/group_speakers.gif?raw=true "musiccast group management example")
 
 ## Install
 
@@ -12,15 +13,13 @@ After waiting a year for [pymusiccast](https://github.com/jalmeroth/pymusiccast/
 TODO
 
 ### Manual install
-- Copy entire pymusiccast folder under `$HOMEASSISTANT_CONFIG/custom_components/`.
-  or
-- git clone git@github.com:ppanagiotis/pymusiccast.git under `$HOMEASSISTANT_CONFIG/custom_components/`.
+- Copy entire `pymusiccast/custom_components/pymusiccast` folder under `$HOMEASSISTANT_CONFIG/custom_components/`.
+
 
 ## Setup
 - At `media_server` component you have to add the following entry for each media player you want to add
 
 ```yaml
----
 - platform: musiccast_yamaha
   host: `your.speaker.ip.address`
   port: 5009
@@ -46,6 +45,8 @@ action:
   - service: musiccast_yamaha.unjoin
     entity_id: `THE_CLIENT_SPEAKER`
 ```
+
+## Using grouping at home assistant with [custom:mini-media-player](https://github.com/kalkih/mini-media-player)
 
 To add the group layout at custom:mini-media-player you have to add something like this at your ui-lovelace.yaml:
 ```yaml
@@ -116,3 +117,5 @@ views:
             entity: media_player.yard
             toggle_power: false
 ```
+## License
+This project is under the MIT license.
