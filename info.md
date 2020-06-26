@@ -4,7 +4,7 @@
 Group Yamaha MusicCast Speakers with [Home Assistant](https://github.com/home-assistant/home-assistant)
 
 
-![Preview Image](https://github.com/ppanagiotis/pymusiccast/raw/master/group_speakers.gif?raw=true)
+![Preview Image](https://github.com/ppanagiotis/pymusiccast/raw/master/images/group_speakers.gif?raw=true)
 
 ## Features
 

@@ -5,14 +5,17 @@
 After waiting a year for [pymusiccast](https://github.com/jalmeroth/pymusiccast/) to support speakers group I decide to create a custom module, overwriting existing pymusiccast module, using code from this [PR](https://github.com/jalmeroth/pymusiccast/pull/13)
 (credits [@hcoohb](https://github.com/hcoohb)).
 
-![musiccast group management example](https://github.com/ppanagiotis/pymusiccast/raw/master/group_speakers.gif?raw=true "musiccast group management example")
+![musiccast group management example](https://github.com/ppanagiotis/pymusiccast/raw/master/images/group_speakers.gif?raw=true "musiccast group management example")
 
 ## Install
 
 ### HACS
-TODO
 
-### Manual install
+- Find it under integrations and select install it.\
+![](https://github.com/ppanagiotis/pymusiccast/raw/master/images/install.jpg?raw=true)]
+
+
+### Manual
 - Copy entire `pymusiccast/custom_components/musiccast_yamaha` folder under `$HOMEASSISTANT_CONFIG/custom_components/`.
 
 
