@@ -267,3 +267,24 @@ class Zone(Zone):
         payload = {'group_id': '',
                    'zone': self._zone_id}
         request(req_url, method='POST', json=payload)
+
+    def handle_message(self, message):
+        """Process UDP messages"""
+        if self._yamaha:
+            if 'power' in message:
+                _LOGGER.debug("Power: %s", message.get('power'))
+                self._yamaha.power = (
+                    STATE_ON if message.get('power') == "on" else STATE_OFF)
+            if 'input' in message:
+                _LOGGER.debug("Input: %s", message.get('input'))
+                self._yamaha._source = message.get('input')
+            if 'volume' in message:
+                volume = message.get('volume')
+                _LOGGER.debug("Volume: %d", volume)
+
+                self._yamaha.volume = volume / 100
+            if 'mute' in message:
+                _LOGGER.debug("Mute: %s", message.get('mute'))
+                self._yamaha.mute = message.get('mute', False)
+        else:
+            _LOGGER.debug("No yamaha-obj found")

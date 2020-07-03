@@ -145,7 +145,6 @@ class YamahaDevice(MediaPlayerEntity):
         self.power = STATE_UNKNOWN
         self.status = STATE_UNKNOWN
         self.volume = 0
-        self.volume_max = 0
         self._recv.set_yamaha_device(self)
         self._zone.set_yamaha_device(self)
 
@@ -330,9 +329,8 @@ class YamahaDevice(MediaPlayerEntity):
 
     def set_volume_level(self, volume):
         """Set volume level, range 0..1."""
-        _LOGGER.debug("Volume level: %.2f / %d",
-                      volume, volume * self.volume_max)
-        self._zone.set_volume(volume * self.volume_max)
+        _LOGGER.debug("Volume level: %.2f", volume)
+        self._zone.set_volume(volume * 100)
 
     def select_source(self, source):
         """Send the media player the command to select input source."""
