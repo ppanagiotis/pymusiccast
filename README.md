@@ -120,5 +120,13 @@ views:
             entity: media_player.yard
             toggle_power: false
 ```
+
+## You like this project? Be nice!
+
+Buy me a ~~coffee~~ beer! ;-)
+
+[![Buy me a ~~coffee~~ beer!](https://github.com/ppanagiotis/pymusiccast/raw/master/images/beers.png)](https://www.paypal.me/ppanagiotis)
+
+
 ## License
 This project is under the MIT license.
