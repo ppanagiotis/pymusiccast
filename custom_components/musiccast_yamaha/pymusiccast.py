@@ -267,3 +267,12 @@ class Zone(Zone):
         payload = {'group_id': '',
                    'zone': self._zone_id}
         request(req_url, method='POST', json=payload)
+
+    def _decibel_to_ratio(self, decibel):
+        """Convert dB linearly to ratio ."""
+        return (decibel - self._volume_min) /\
+               (self._volume_max - self._volume_min)
+
+    def _ratio_to_decibel(self, ratio):
+        """Convert ratio scale to dB."""
+        return ratio * (self._volume_max - self._volume_min) + self._volume_min
