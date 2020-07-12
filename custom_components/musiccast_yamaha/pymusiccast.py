@@ -34,6 +34,8 @@ class McDevice(McDevice):
         self.initialize_worker()
         self.initialize_zones()
         self.update_distribution_info()
+        self._volume_db_control = False
+        self.volume_db_control()
 
     def update_distribution_info(self):
         """Get distribution info from device and update zone"""
@@ -46,6 +48,12 @@ class McDevice(McDevice):
             self.zones[server_zone].update_distribution_info(response)
         else:
             self.zones['main'].update_distribution_info(response)
+
+    def volume_db_control(self):
+        for i in self.get_features()['zone']:
+            if i['id'] == 'main':
+                if 'actual_volume' in i['func_list']:
+                    self._volume_db_control = True
 
     def handle_event(self, message):
         """Dispatch all event messages"""
