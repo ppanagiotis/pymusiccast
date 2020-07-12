@@ -130,6 +130,41 @@ class Zone(Zone):
                         self._volume_max = x['max']
                         self._volume_min = x['min']
 
+    def handle_message(self, message):
+        """Process UDP messages"""
+        if self._yamaha:
+            if 'power' in message:
+                _LOGGER.debug("Power: %s", message.get('power'))
+                self._yamaha.power = (
+                    STATE_ON if message.get('power') == "on" else STATE_OFF)
+            if 'input' in message:
+                _LOGGER.debug("Input: %s", message.get('input'))
+                self._yamaha._source = message.get('input')
+            if self.receiver._volume_db_control:
+                self._yamaha.volume_max =\
+                        self._decibel_to_ratio(self._volume_max)
+                if 'actual_volume' in message:
+                    volume = message.get('actual_volume')
+                    volume = volume['value']
+                self._yamaha.volume = self._decibel_to_ratio(volume)
+            else:
+                if 'volume' in message:
+                    volume = message.get('volume')
+
+                    if 'max_volume' in message:
+                        volume_max = message.get('max_volume')
+                    else:
+                        volume_max = self._yamaha.volume_max
+
+                    _LOGGER.debug("Volume: %d / Max: %d", volume, volume_max)
+
+                    self._yamaha.volume = volume / volume_max
+                    self._yamaha.volume_max = volume_max
+            if 'mute' in message:
+                _LOGGER.debug("Mute: %s", message.get('mute'))
+                self._yamaha.mute = message.get('mute', False)
+        else:
+            _LOGGER.debug("No yamaha-obj found")
 
     def update_distribution_info(self, new_dist=None):
         """Get distribution info from device and update zone"""
@@ -295,3 +330,16 @@ class Zone(Zone):
     def _ratio_to_decibel(self, ratio):
         """Convert ratio scale to dB."""
         return ratio * (self._volume_max - self._volume_min) + self._volume_min
+
+    def set_volume(self, volume):
+        """Send Volume command."""
+        if self.receiver._volume_db_control:
+            req_url = ENDPOINTS["setActualVolume"].format(self.ip_address,
+                                                          self.zone_id)
+            volume = self._ratio_to_decibel(volume)
+            params = {"mode": "db", "value": round(float(volume)*2)/2}
+        else:
+            req_url = ENDPOINTS["setVolume"].format(self.ip_address,
+                                                    self.zone_id)
+            params = {"volume": int(volume)}
+        return request(req_url, params=params)
