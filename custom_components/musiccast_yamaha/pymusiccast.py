@@ -84,6 +84,7 @@ class Zone(Zone):
     def __init__(self, receiver, zone_id='main'):
         super().__init__(receiver)
         self._distribution_info = None
+        self.get_db_range_volume()
 
     @property
     def distribution_info(self):
@@ -119,6 +120,16 @@ class Zone(Zone):
     def receiver(self):
         """Returns the receiver."""
         return self._receiver
+
+    def get_db_range_volume(self):
+        """Returns the min and max db volume."""
+        for i in self.receiver.get_features()['zone']:
+            if i['id'] == 'main':
+                for x in i['range_step']:
+                    if x['id'] == 'actual_volume_db':
+                        self._volume_max = x['max']
+                        self._volume_min = x['min']
+
 
     def update_distribution_info(self, new_dist=None):
         """Get distribution info from device and update zone"""
