@@ -15,6 +15,7 @@ ENDPOINTS = {
     "setMute": "http://{}/YamahaExtendedControl/v1/{}/setMute",
     "setPower": "http://{}/YamahaExtendedControl/v1/{}/setPower",
     "setVolume": "http://{}/YamahaExtendedControl/v1/{}/setVolume",
+    "setActualVolume": "http://{}/YamahaExtendedControl/v1/{}/setActualVolume",
     "getDistributionInfo": "http://{}/YamahaExtendedControl"
                            "/v1/dist/getDistributionInfo",
     "setServerInfo": "http://{}/YamahaExtendedControl/v1/dist/setServerInfo",
