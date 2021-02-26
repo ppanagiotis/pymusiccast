@@ -284,7 +284,7 @@ class YamahaDevice(MediaPlayerEntity):
         """Push updates to Home Assistant."""
         if self.entity_id:
             _LOGGER.debug("update_hass: pushing updates")
-            self.schedule_update_ha_state()
+            self.schedule_update_ha_state(True)
             return True
         return False
 
