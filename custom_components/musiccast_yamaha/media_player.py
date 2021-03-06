@@ -51,6 +51,9 @@ SUPPORTED_FEATURES = (
     | SUPPORT_SELECT_SOURCE
 )
 
+CONF_SOURCE_IGNORE = "source_ignore"
+CONF_SOURCE_NAMES = "source_names"
+
 INTERVAL_SECONDS = "interval_seconds"
 
 DEFAULT_PORT = 5005
@@ -65,6 +68,10 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend(
         vol.Optional(CONF_PORT, default=DEFAULT_PORT): cv.port,
         vol.Optional(INTERVAL_SECONDS,
                      default=DEFAULT_INTERVAL): cv.positive_int,
+        vol.Optional(CONF_SOURCE_IGNORE, default=[]): vol.All(
+            cv.ensure_list, [cv.string]
+        ),
+        vol.Optional(CONF_SOURCE_NAMES, default={}): {cv.string: cv.string},
     }
 )
 
@@ -91,6 +98,8 @@ def setup_platform(hass, config, add_entities, discovery_info=None):
     host = config.get(CONF_HOST)
     port = config.get(CONF_PORT)
     interval = config.get(INTERVAL_SECONDS)
+    source_ignore = config.get(CONF_SOURCE_IGNORE)
+    source_names = config.get(CONF_SOURCE_NAMES)
 
     # Get IP of host to prevent duplicates
     try:
@@ -122,7 +131,15 @@ def setup_platform(hass, config, add_entities, discovery_info=None):
         for zone in receiver.zones:
             _LOGGER.debug("Receiver: %s / Port: %d / Zone: %s",
                           receiver, port, zone)
-            add_entities([YamahaDevice(receiver, receiver.zones[zone])], True)
+            add_entities(
+                [YamahaDevice(
+                    receiver,
+                    receiver.zones[zone],
+                    source_ignore,
+                    source_names
+                )],
+                True
+            )
     else:
         known_hosts.remove(reg_host)
 
@@ -130,13 +147,16 @@ def setup_platform(hass, config, add_entities, discovery_info=None):
 class YamahaDevice(MediaPlayerEntity):
     """Representation of a Yamaha MusicCast device."""
 
-    def __init__(self, recv, zone):
+    def __init__(self, recv, zone, source_ignore, source_names):
         """Initialize the Yamaha MusicCast device."""
         self._recv = recv
         self._name = recv.name
         self._ip_address = recv.ip_address
         self._source = None
         self._source_list = []
+        self._source_list_raw = []
+        self._source_ignore = source_ignore or []
+        self._source_names = source_names or {}
         self._zone = zone
         self._musiccast_group = [self]
         self.mute = False
@@ -148,6 +168,10 @@ class YamahaDevice(MediaPlayerEntity):
         self.volume_max = 0
         self._recv.set_yamaha_device(self)
         self._zone.set_yamaha_device(self)
+
+        self._reverse_mapping = {
+            alias: source for source, alias in self._source_names.items()
+        }
 
     async def async_added_to_hass(self):
         """Record entity."""
@@ -198,7 +222,7 @@ class YamahaDevice(MediaPlayerEntity):
     @property
     def source(self):
         """Return the current input source."""
-        return self._source
+        return self._source_names.get(self._source, self._source)
 
     @property
     def source_list(self):
@@ -208,7 +232,8 @@ class YamahaDevice(MediaPlayerEntity):
     @source_list.setter
     def source_list(self, value):
         """Set source_list attribute."""
-        self._source_list = value
+        self._source_list_raw = value
+        self.build_source_list()
 
     @property
     def media_content_type(self):
@@ -338,7 +363,7 @@ class YamahaDevice(MediaPlayerEntity):
         """Send the media player the command to select input source."""
         _LOGGER.debug("select_source: %s", source)
         self.status = STATE_UNKNOWN
-        self._zone.set_input(source)
+        self._zone.set_input(self._reverse_mapping.get(source, source))
 
     def new_media_status(self, status):
         """Handle updates of the media status."""
@@ -391,3 +416,11 @@ class YamahaDevice(MediaPlayerEntity):
                                    in self._musiccast_group],
         }
         return attributes
+
+    def build_source_list(self):
+        """Build the source list."""
+        self._source_list = sorted(
+            self._source_names.get(source, source)
+            for source in self._source_list_raw
+            if source not in self._source_ignore
+        )
