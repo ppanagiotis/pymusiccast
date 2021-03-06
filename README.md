@@ -29,6 +29,22 @@ After waiting a year for [pymusiccast](https://github.com/jalmeroth/pymusiccast/
 
 ```
 
+## source ignore / source names attributes (optional)
+
+- Add `source_ignore` or / and `source_names` attributes
+
+```yaml
+- platform: musiccast_yamaha
+  host: `your.speaker.ip.address`
+  port: 5009
+  source_ignore:
+    - "AUX"
+    - "HDMI6"
+  source_names:
+    HDMI1: "ChromeCast"
+    AV4: "Vinyl"
+```
+
 ## Using grouping at home assistant as a service
 
 To add a speaker at a group:
