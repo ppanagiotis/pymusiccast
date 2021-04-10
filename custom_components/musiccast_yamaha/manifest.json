@@ -1,6 +1,7 @@
 {
   "domain": "musiccast_yamaha",
   "name": "MusicCast Yamaha",
+  "version": "0.5",
   "documentation": "https://github.com/ppanagiotis/pymusiccast",
   "issue_tracker": "https://github.com/ppanagiotis/pymusiccast/issues",
   "manifest": "https://raw.githubusercontent.com/ppanagiotis/pymusiccast/master/custom_components/musiccast_yamaha/manifest.json",
