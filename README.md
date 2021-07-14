@@ -1,3 +1,9 @@
+# Deprecated after [Home Assistant](https://github.com/home-assistant/home-assistant) 2021.7. Use official [integration](https://www.home-assistant.io/integrations/yamaha_musiccast/)
+
+#
+#
+#
+
 # Group MusicCast Speakers with [Home Assistant](https://github.com/home-assistant/home-assistant)
 
 [![](https://img.shields.io/github/v/release/ppanagiotis/pymusiccast.svg?style=flat-square?style=flat-square)](https://github.com/ppanagiotis/pymusiccast/releases/latest)
